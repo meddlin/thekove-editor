@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { TextField } from 'office-ui-fabric-react';
 
-const TagEditorForm = (props) => {
+const TagCreateForm = (props) => {
 
     const {
         values,
@@ -99,15 +99,16 @@ const formikEnhancer = withFormik({
         let tagDocument = {
             name: values ? values.name : '',
             slug: values ? values.slug : '',
-            isSection: values ? values.isSection : '',
+            // isSection: values ? values.isSection : '',
+            isSection: false,
             createdAt: new Date(), 
             updatedAt: new Date()
         };
 
-        store.dispatch(tagActions.updateTag(props.initialTag.id, tagDocument));
+        store.dispatch(tagActions.createTag(tagDocument));
         setSubmitting(false);
     }
-})(TagEditorForm);
+})(TagCreateForm);
 
 function mapStateToProps(state) {
     const { tags } = state;
@@ -115,5 +116,5 @@ function mapStateToProps(state) {
     return { }
 }
 
-const TagEditorFormConnection = withRouter(connect(mapStateToProps)(formikEnhancer));
-export { TagEditorFormConnection as TagEditorForm };
+const TagCreateFormConnection = withRouter(connect(mapStateToProps)(formikEnhancer));
+export { TagCreateFormConnection as TagCreateForm };

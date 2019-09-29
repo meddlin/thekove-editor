@@ -32,8 +32,8 @@ const TagDetail = (props) => {
         <StyledTagDetail onClick={handleClick}>
             <section className="left">
                 <div>
-                    <span>Title: </span>
-                    <span>{tag.title || 'no title'}</span>
+                    <span>Name: </span>
+                    <span>{tag.name || 'no name'}</span>
                 </div>
                 <div>
                     <span>Slug: </span>
