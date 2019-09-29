@@ -1,0 +1,14 @@
+.horizontalView {
+    display: flex;
+    flex-direction: row;
+
+    background-color: lightgray;
+
+    div {
+        cursor: pointer;
+
+        &:hover {
+            background-color: lightsteelblue;
+        }
+    }
+}

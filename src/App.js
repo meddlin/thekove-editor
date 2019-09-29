@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Router, Route } from 'react-router-dom';
+import { history } from './_helpers';
+import NavigationBar from './components/NavigationBar/NavigationBar';
+import { BrowsePosts } from './pages/BrowsePosts/BrowsePosts';
+import { BrowseTags } from './pages/BrowseTags/BrowseTags';
+import { Editor } from './pages/Editor/Editor';
+import { TagEditor } from './pages/TagEditor/TagEditor';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div className="App">
+			<Router history={history}>
+				<NavigationBar />
+
+				<div>
+					<Route path="/browse/tags" exact={true} name="browseTags" component={BrowseTags} />
+					<Route path="/browse" exact={true} name="browsePosts" component={BrowsePosts} />
+					<Route path="/edit/tag/:id" exact={true}  component={TagEditor} />
+					<Route path="/edit/:id" component={Editor} />
+					
+				</div>
+			</Router>
+		</div>
+	);
 }
 
 export default App;

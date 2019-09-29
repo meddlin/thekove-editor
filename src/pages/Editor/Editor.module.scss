@@ -1,0 +1,12 @@
+.horizontalView {
+    display: flex;
+    flex-direction: row;
+
+    div {
+        flex-grow: 2;
+    }
+}
+
+.separators {
+    border: 1px solid black;
+}
