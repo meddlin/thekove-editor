@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
+import { DefaultButton } from 'office-ui-fabric-react';
 
 const StyledPostDetail = styled.div`
     margin: 10px 0 10px 0;
     padding: 5px;
-    max-width: 40%;
+    max-width: 60%;
     cursor: pointer;
 
     :hover {
@@ -32,8 +33,7 @@ const PostDetail = (props) => {
         <StyledPostDetail onClick={handleClick}>
             <section className="left">
                 <div>
-                    <span>Title: </span>
-                    <span>{post.title || 'no title'}</span>
+                    <b>{post.title || 'no title'}</b>
                 </div>
                 <div>
                     <span>Slug: </span>
@@ -43,8 +43,6 @@ const PostDetail = (props) => {
                     <span>Description: </span>
                     <span>{post.description || 'no description'}</span>
                 </div>
-            </section>
-            <section className="right">
                 <div>
                     <span>Created At: </span>
                     <span>{post.createdAt || 'no created date'}</span>
@@ -57,6 +55,10 @@ const PostDetail = (props) => {
                     <span>Mode: </span>
                     <span>{post.mode || 'no mode found'}</span>
                 </div>
+            </section>
+            <section className="right">
+                <DefaultButton>Preview</DefaultButton>
+                <DefaultButton>Delete</DefaultButton>
             </section>
         </StyledPostDetail>
     );
