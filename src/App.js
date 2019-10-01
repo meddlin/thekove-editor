@@ -17,8 +17,7 @@ function App() {
 					<Route path="/browse/tags" exact={true} name="browseTags" component={BrowseTags} />
 					<Route path="/browse" exact={true} name="browsePosts" component={BrowsePosts} />
 					<Route path="/edit/tag/:id" exact={true}  component={TagEditor} />
-					<Route path="/edit/:id" component={Editor} />
-					
+					<Route path="/edit/:id" exact={true} component={Editor} />
 				</div>
 			</Router>
 		</div>

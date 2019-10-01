@@ -80,6 +80,7 @@ const TagEditorForm = (props) => {
 };
 
 const formikEnhancer = withFormik({
+    enableReinitialize: true,
     mapPropsToValues: (props) => {
         const { initialTag } = props;
 

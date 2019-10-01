@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { store } from '../../_helpers';
-// import { postActions } from '../../_actions';
+import { tagActions } from '../../_actions';
 import { TagEditorForm } from '../../components/Tags/TagEditorForm';
 import { TagPreviewer } from '../../components/Tags/TagPreviewer';
 
@@ -12,8 +12,8 @@ class TagEditor extends Component {
     componentDidMount() {
         const { match } = this.props;
 
-        // if ((match && match.params) && Object.keys(match.params).length !== 0) 
-        //     store.dispatch(postActions.getPost(match.params.id));
+        if ((match && match.params) && Object.keys(match.params).length !== 0) 
+            store.dispatch(tagActions.getSingleTag(match.params.id));
     }
     
     render() {
@@ -30,9 +30,9 @@ class TagEditor extends Component {
                         }
                     </div>
 
-                    <div className={styles.separators}>
+                    {/* <div className={styles.separators}>
                         <TagPreviewer />
-                    </div>
+                    </div> */}
                 </div>
             </div>
         );

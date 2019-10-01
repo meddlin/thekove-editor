@@ -214,12 +214,7 @@ const formikEnhancer = withFormik({
             updatedAt: new Date()
         };
 
-        // if (!props.initialPost || (Object.keys(props.initialPost).length == 0) || !props.initialPost.id) { // initialPost wasn't passed in, and this is '/create'
-        //     store.dispatch(editorActions.createPost(postDocument));
-        // } else {
-            store.dispatch(editorActions.updatePostBody(props.initialPost.id, postDocument));
-        //}
-        
+        store.dispatch(editorActions.updatePostBody(props.initialPost.id, postDocument));        
         setSubmitting(false);
     }
 })(EditorForm);

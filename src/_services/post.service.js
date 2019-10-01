@@ -1,4 +1,5 @@
 export const postService = {
+    getMostRecent,
     getPostsList,
     getSinglePost
 };
@@ -7,7 +8,7 @@ const config = {
     apiUrl: process.env.REACT_APP_API_URL || 'https://localhost:5001'
 };
 
-function getPostsList() {
+function getMostRecent() {
     const requestOptions = {
         method: 'GET',
         headers: {
@@ -15,7 +16,19 @@ function getPostsList() {
         }
     };
 
-    return fetch(`${config.apiUrl}/api/Posts/Get`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/api/Posts/GetMostRecent`, requestOptions).then(handleResponse);
+};
+
+function getPostsList(pageRequest) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(pageRequest)
+    };
+
+    return fetch(`${config.apiUrl}/api/Posts/Page`, requestOptions).then(handleResponse);
 };
 
 function getSinglePost(postId) {

@@ -2,15 +2,41 @@ import { postConstants } from '../_constants';
 import { postService } from '../_services';
 
 export const postActions = {
-    getList,
+    getMostRecent,
+    getPage,
     getPost
 };
 
-function getList() {
+function getMostRecent() {
     return dispatch => {
         dispatch(request());
 
-        postService.getPostsList()
+        postService.getMostRecent()
+            .then(
+                posts => {
+                    dispatch(success(posts));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            )
+    };
+
+    function request() { return { type: postConstants.GET_MOST_RECENT_REQUEST } }
+    function success(posts) { return { type: postConstants.GET_MOST_RECENT_SUCCESS, posts } }
+    function failure(error) { return { type: postConstants.GET_MOST_RECENT_FAILURE, error } }
+}
+
+function getPage(pageNum, pageSize) {
+    let pageRequest = {
+        pageNumber: pageNum,
+        pageSize: pageSize
+    };
+
+    return dispatch => {
+        dispatch(request(pageRequest));
+
+        postService.getPostsList(pageRequest)
             .then(
                 posts => {
                     dispatch(success(posts));
@@ -23,7 +49,7 @@ function getList() {
             )
     };
 
-    function request() { return { type: postConstants.GET_LIST_REQUEST } }
+    function request(pageRequest) { return { type: postConstants.GET_LIST_REQUEST, pageRequest: pageRequest } }
     function success(posts) { return { type: postConstants.GET_LIST_SUCCESS, posts } }
     function failure(error) { return { type: postConstants.GET_LIST_FAILURE, error } }
 }

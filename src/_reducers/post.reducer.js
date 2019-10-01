@@ -2,6 +2,20 @@ import { postConstants } from '../_constants';
 
 export function posts(state = {}, action) {
     switch (action.type) {
+        case postConstants.GET_MOST_RECENT_REQUEST:
+            return Object.assign({}, state, {
+                loading: true
+            });
+        case postConstants.GET_MOST_RECENT_SUCCESS:
+            return Object.assign({}, state, {
+                loading: false,
+                posts: action.posts
+            });
+        case postConstants.GET_MOST_RECENT_FAILURE:
+            return Object.assign({}, state, {
+                loading: false
+            });
+
         case postConstants.GET_LIST_REQUEST:
             return Object.assign({}, state, {
                 loading: true
