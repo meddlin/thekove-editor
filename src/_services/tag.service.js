@@ -3,6 +3,8 @@ export const tagService = {
     getSingleTag,
     createTag,
     updateTag,
+    createSection,
+    removeSection,
     deleteTag
 };
 
@@ -55,6 +57,30 @@ function updateTag(tagId, tagDoc) {
     };
 
     return fetch(`${config.apiUrl}/api/Tags/Update/${tagId}`, requestOptions).then(handleResponse);
+};
+
+function createSection(tagId) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(tagId)
+    };
+
+    return fetch(`${config.apiUrl}/api/Tags/CreateSection`, requestOptions).then(handleResponse);
+};
+
+function removeSection(tagId) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(tagId)
+    };
+
+    return fetch(`${config.apiUrl}/api/Tags/RemoveSection`, requestOptions).then(handleResponse);
 };
 
 function deleteTag(tagId) {

@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { tagActions } from '../../_actions';
+import { store } from '../../_helpers';
 import { connect } from 'react-redux';
-import { postActions } from '../../_actions';
 import { Modal } from 'office-ui-fabric-react/lib/Modal';
 import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
-import { store } from '../../_helpers';
 
-const ConfirmRemovePost = (props) => {
-    const { postValue, postResult, show } = props;
+const ConfirmRemoveTag = (props) => {
+    const { tagValue, tagResult, show } = props;
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        const { show, postResult, modalCallback } = props;
+        const { show, tagResult, modalCallback } = props;
         setShowModal(show);
 
-        if (postResult) {
+        if (tagResult) {
             setShowModal(false);
             modalCallback(false);
         }
-    }, [show, postResult, showModal]);
+    }, [show, tagResult, showModal]);
 
     const handleHideModal = () => {
         const { modalCallback } = props;
@@ -26,24 +26,24 @@ const ConfirmRemovePost = (props) => {
         modalCallback(false);
     }
 
-    const handleDeletePost = () => {
-        let postId = props.postId;
+    const handleDeleteTag = () => {
+        let tagId = props.tagId;
 
-        store.dispatch(postActions.deletePost(postId));
+        store.dispatch(tagActions.deleteTag(tagId));
     }
 
     return (
         <Modal isOpen={showModal} onDismiss={handleHideModal}>
             <div style={{ height: '200px', width: '600px', margin: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <section>
-                    <h3>Delete a post</h3>
+                    <h3>Delete a tag</h3>
 
-                    <p>{postValue}</p>
+                    <p>{tagValue}</p>
                 </section>
 
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                     <DefaultButton onClick={handleHideModal}>Cancel</DefaultButton>
-                    <PrimaryButton onClick={handleDeletePost}>Yes, delete</PrimaryButton>
+                    <PrimaryButton onClick={handleDeleteTag}>Yes, delete</PrimaryButton>
                 </div>
             </div>
         </Modal>
@@ -51,12 +51,12 @@ const ConfirmRemovePost = (props) => {
 };
 
 function mapStateToProps(state) {
-    const { posts } = state;
-
+    const { tags } = state;
+    
     return {
-        postResult: (posts ? posts.postDeleted : false)
+        tagResult: (tags ? tags.tagDeleted : false)
     };
 }
 
-const connectedConfirmRemovePost = connect(mapStateToProps)(ConfirmRemovePost);
-export { connectedConfirmRemovePost as ConfirmRemovePost };
+const connectedConfirmRemoveTag = connect(mapStateToProps)(ConfirmRemoveTag);
+export { connectedConfirmRemoveTag as ConfirmRemoveTag };

@@ -31,7 +31,7 @@ class NavigationBar extends Component {
                     <Link to="/browse"><DefaultButton>Browse Posts</DefaultButton></Link>
                     <Link to="/browse/tags"><DefaultButton>Browse Tags</DefaultButton></Link>
                 </div>
-                <PrimaryButton onClick={this.handleShowModal}>Create New</PrimaryButton>
+                <PrimaryButton onClick={this.handleShowModal}>Create Post</PrimaryButton>
 
                 <CreateDocument show={showModal} modalCallback={this.handleHideModal} />
             </div>

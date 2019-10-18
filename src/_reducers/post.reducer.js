@@ -44,6 +44,58 @@ export function posts(state = {}, action) {
                 loading: false
             });
         
+        case postConstants.POST_PUBLISH_REQUEST:
+            return Object.assign({}, state, {
+                loading: true
+            });
+        case postConstants.POST_PUBLISH_SUCCESS:
+            return Object.assign({}, state, {
+                loading: false,
+                posts: state.posts.map(p => {
+                    if (p.id === action.postId)
+                        return Object.assign({}, p, { mode: true });
+
+                    return p;
+                })
+            });
+        case postConstants.POST_PUBLISH_FAILURE:
+            return Object.assign({}, state, {
+                loading: false
+            });
+        
+        case postConstants.POST_UNPUBLISH_REQUEST:
+            return Object.assign({}, state, {
+                loading: true
+            });
+        case postConstants.POST_UNPUBLISH_SUCCESS:
+            return Object.assign({}, state, {
+                loading: false,
+                posts: state.posts.map(p => {
+                    if (p.id === action.postId)
+                        return Object.assign({}, p, { mode: false });
+
+                    return p;
+                })
+            });
+        case postConstants.POST_UNPUBLISH_FAILURE:
+            return Object.assign({}, state, {
+                loading: false
+            });
+        
+        case postConstants.POST_DELETE_REQUEST:
+            return Object.assign({}, state, {
+                loading: true
+            });
+        case postConstants.POST_DELETE_SUCCESS:
+            return Object.assign({}, state, {
+                loading: false,
+                postResult: true
+            });
+        case postConstants.POST_PUBLISH_FAILURE:
+            return Object.assign({}, state, {
+                loading: false
+            });
+        
         default:
             return state;
     }

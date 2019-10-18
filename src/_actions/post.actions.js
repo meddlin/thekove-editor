@@ -2,16 +2,19 @@ import { postConstants } from '../_constants';
 import { postService } from '../_services';
 
 export const postActions = {
-    getMostRecent,
+    get,
     getPage,
-    getPost
+    getPost,
+    publishPost,
+    unpublishPost,
+    deletePost
 };
 
-function getMostRecent() {
+function get() {
     return dispatch => {
         dispatch(request());
 
-        postService.getMostRecent()
+        postService.get()
             .then(
                 posts => {
                     dispatch(success(posts));
@@ -74,4 +77,64 @@ function getPost(postId) {
     function request(postId) { return { type: postConstants.GET_POST_REQUEST, postId } }
     function success(post) { return { type: postConstants.GET_POST_SUCCESS, post } }
     function failure(error) { return { type: postConstants.GET_POST_FAILURE, error } }
+}
+
+function publishPost(postId) {
+    return dispatch => {
+        dispatch(request(postId));
+
+        postService.publishPost(postId)
+            .then(
+                postId => {
+                    dispatch(success(postId));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            )
+    };
+
+    function request(postId) { return { type: postConstants.POST_PUBLISH_REQUEST, postId } }
+    function success(postId) { return { type: postConstants.POST_PUBLISH_SUCCESS, postId } }
+    function failure(error) { return { type: postConstants.POST_PUBLISH_FAILURE, error } }
+}
+
+function unpublishPost(postId) {
+    return dispatch => {
+        dispatch(request(postId));
+
+        postService.unpublishPost(postId)
+            .then(
+                postId => {
+                    dispatch(success(postId));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            )
+    };
+
+    function request(postId) { return { type: postConstants.POST_UNPUBLISH_REQUEST, postId } }
+    function success(postId) { return { type: postConstants.POST_UNPUBLISH_SUCCESS, postId } }
+    function failure(error) { return { type: postConstants.POST_UNPUBLISH_FAILURE, error } }
+}
+
+function deletePost(postId) {
+    return dispatch => {
+        dispatch(request(postId));
+
+        postService.deletePost(postId)
+            .then(
+                postResult => {
+                    dispatch(success(postResult));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            )
+    };
+
+    function request(postId) { return { type: postConstants.POST_DELETE_REQUEST, postId } }
+    function success(result) { return { type: postConstants.POST_DELETE_SUCCESS, result } }
+    function failure(error) { return { type: postConstants.POST_DELETE_FAILURE, error } }
 }

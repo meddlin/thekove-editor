@@ -6,6 +6,8 @@ export const tagActions = {
     getSingleTag,
     createTag,
     updateTag,
+    createSection,
+    removeSection,
     deleteTag
 };
 
@@ -88,6 +90,46 @@ function updateTag(tagId, tagDoc) {
     function success(tagId) { return { type: tagConstants.TAG_UPDATE_SUCCESS, tagId } }
     function failure(error) { return { type: tagConstants.TAG_UPDATE_FAILURE, error } }
 };
+
+function createSection(tagId) {
+    return dispatch => {
+        dispatch(request(tagId));
+
+        tagService.createSection(tagId)
+            .then(
+                tagId => {
+                    dispatch(success(tagId));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            )
+    };
+
+    function request(tagId) { return { type: tagConstants.TAG_CREATE_SECTION_REQUEST, tagId } }
+    function success(tagId) { return { type: tagConstants.TAG_CREATE_SECTION_SUCCESS, tagId } }
+    function failure(error) { return { type: tagConstants.TAG_CREATE_SECTION_FAILURE, error } }
+}
+
+function removeSection(tagId) {
+    return dispatch => {
+        dispatch(request(tagId));
+
+        tagService.removeSection(tagId)
+            .then(
+                tagId => {
+                    dispatch(success(tagId));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            )
+    };
+
+    function request(tagId) { return { type: tagConstants.TAG_REMOVE_SECTION_REQUEST, tagId } }
+    function success(tagId) { return { type: tagConstants.TAG_REMOVE_SECTION_SUCCESS, tagId } }
+    function failure(error) { return { type: tagConstants.TAG_REMOVE_SECTION_FAILURE, error } }
+}
 
 function deleteTag(tagId) {
     return dispatch => {

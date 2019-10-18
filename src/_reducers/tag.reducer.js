@@ -57,6 +57,46 @@ export function tags(state = {}, action) {
             return Object.assign({}, state, {
                 loading: false
             });
+        
+        case tagConstants.TAG_CREATE_SECTION_REQUEST:
+            return Object.assign({}, state, {
+                loading: true
+            });
+        case tagConstants.TAG_CREATE_SECTION_SUCCESS:
+            return Object.assign({}, state, {
+                loading: false,
+                tags: state.tags.map(t => {
+                    if (t.id === action.tagId) {
+                        t.isSection = true;
+                        return t;
+                    }
+                    return t;
+                })
+            });
+        case tagConstants.TAG_CREATE_SECTION_FAILURE:
+            return Object.assign({}, state, {
+                loading: false
+            });
+    
+        case tagConstants.TAG_REMOVE_SECTION_REQUEST:
+            return Object.assign({}, state, {
+                loading: true
+            });
+        case tagConstants.TAG_REMOVE_SECTION_SUCCESS:
+            return Object.assign({}, state, {
+                loading: false,
+                tags: state.tags.map(t => {
+                    if (t.id === action.tagId) {
+                        t.isSection = false;
+                        return t;
+                    }
+                    return t;
+                })
+            });
+        case tagConstants.TAG_REMOVE_SECTION_FAILURE:
+            return Object.assign({}, state, {
+                loading: false
+            });
 
         case tagConstants.TAG_DELETE_REQUEST:
                 return Object.assign({}, state, {
@@ -65,7 +105,7 @@ export function tags(state = {}, action) {
         case tagConstants.TAG_DELETE_SUCCESS:
             return Object.assign({}, state, {
                 loading: false,
-                tagId: action.tagId
+                tagResult: true
             });
         case tagConstants.TAG_DELETE_FAILURE:
             return Object.assign({}, state, {

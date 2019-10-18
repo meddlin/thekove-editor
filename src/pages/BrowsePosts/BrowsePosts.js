@@ -1,80 +1,66 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { store } from '../../_helpers';
 import { connect } from 'react-redux';
 import { postActions } from '../../_actions';
-import PostDetail from '../../components/Posts/PostDetail';
+import { PostDetail } from '../../components/Posts/PostDetail';
 import { DefaultButton } from 'office-ui-fabric-react';
 
-class BrowsePosts extends Component {
-    constructor(props) {
-        super(props);
+const BrowsePosts = (props) => {
+    const { posts, loading } = props;
+    const [currPage, setCurrPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
 
-        this.state = {
-            currPage: 1,
-            pageSize: 10
-        }
-
-        this.handleNextPage = this.handleNextPage.bind(this);
-        this.handlePrevPage = this.handlePrevPage.bind(this);
-    }
-
-    componentDidMount() {
+    useEffect(() => {
         store.dispatch(postActions.getMostRecent());
-    }
+    }, []);
 
-    handleNextPage() {
-        const { currPage, pageSize } = this.state;
-
+    const handleNextPage = () => {
         store.dispatch(postActions.getPage( (currPage + 1), pageSize ));
-        this.setState({ currPage: (currPage + 1) });
+        setCurrPage( (currPage + 1) );
     }
 
-    handlePrevPage() {
+    const handlePrevPage = () => {
         const { currPage, pageSize } = this.state;
 
         if (currPage > 1) {
             store.dispatch(postActions.getPage( (currPage - 1), pageSize ));
             this.setState({ currPage: (currPage - 1) });
-        }
-        else {
+        } else {
             store.dispatch(postActions.getPage( 1, pageSize ));
         } 
     }
-    
-    render() {
-        const { posts, loading } = this.props;
-        const { currPage, pageSize } = this.state;
 
-        return (
-            <div style={{ margin: '20px'}}>
-                <h2>Browse Posts</h2>
-                <span>page: {currPage}, size: {pageSize}</span>
-                <div>
-                    {loading ? <h3>Loading...</h3> : 
-                        (posts && posts.length > 0 ? 
-                            posts.map(p => {
-                                return (
-                                    <div key={p.id}>
-                                        <PostDetail post={p} />
-                                    </div>
-                                );
-                            }) : <span>No posts to show.</span>)
-                    }
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <DefaultButton onClick={this.handlePrevPage}>Prev</DefaultButton>
-                    <DefaultButton onClick={this.handleNextPage}>Next</DefaultButton>
-                </div>
+    return (
+        <div style={{ margin: '20px'}}>
+            <h2>Browse Posts</h2>
+            <span>page: {currPage}, size: {pageSize}</span>
+            <div>
+                {loading ? <h3>Loading...</h3> : 
+                    (posts && posts.length > 0 ? 
+                        posts.map(p => {
+                            return (
+                                <div key={p.id}>
+                                    <PostDetail post={p} />
+                                </div>
+                            );
+                        }) : <span>No posts to show.</span>)
+                }
             </div>
-        );
-    }
+
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                <DefaultButton onClick={handlePrevPage}>Prev</DefaultButton>
+                <DefaultButton onClick={handleNextPage}>Next</DefaultButton>
+            </div>
+        </div>
+    );
 };
 
 function mapStateToProps(state) {
+    const { posts } = state;
+
     return {
-        loading: (state && state.posts && state.posts.loading) || false,
-        posts: (state && state.posts && state.posts.posts) || []
+        loading: (posts && posts.loading) || false,
+        posts: (posts && posts.posts) || []
     }
 }
 

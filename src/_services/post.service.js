@@ -1,14 +1,17 @@
 export const postService = {
-    getMostRecent,
+    get,
     getPostsList,
-    getSinglePost
+    getSinglePost,
+    publishPost,
+    unpublishPost,
+    deletePost
 };
 
 const config = {
     apiUrl: process.env.REACT_APP_API_URL || 'https://localhost:5001'
 };
 
-function getMostRecent() {
+function get() {
     const requestOptions = {
         method: 'GET',
         headers: {
@@ -16,7 +19,7 @@ function getMostRecent() {
         }
     };
 
-    return fetch(`${config.apiUrl}/api/Posts/GetMostRecent`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/api/Posts/Get`, requestOptions).then(handleResponse);
 };
 
 function getPostsList(pageRequest) {
@@ -41,6 +44,41 @@ function getSinglePost(postId) {
     };
 
     return fetch(`${config.apiUrl}/api/Posts/Single`, requestOptions).then(handleResponse);
+}
+
+function publishPost(postId) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postId)
+    };
+
+    return fetch(`${config.apiUrl}/api/Posts/Publish`, requestOptions).then(handleResponse);
+};
+
+function unpublishPost(postId) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postId)
+    };
+
+    return fetch(`${config.apiUrl}/api/Posts/Unpublish`, requestOptions).then(handleResponse);
+};
+
+function deletePost(postId) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    return fetch(`${config.apiUrl}/api/Posts/Delete/${postId}`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
