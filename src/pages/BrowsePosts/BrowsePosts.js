@@ -6,13 +6,13 @@ import { PostDetail } from '../../components/Posts/PostDetail';
 import { DefaultButton } from 'office-ui-fabric-react';
 
 const BrowsePosts = (props) => {
-    const { posts, loading } = props;
+    const { posts, loading, postResult } = props;
     const [currPage, setCurrPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
 
     useEffect(() => {
-        store.dispatch(postActions.getMostRecent());
-    }, []);
+        store.dispatch(postActions.get());
+    }, [postResult]);
 
     const handleNextPage = () => {
         store.dispatch(postActions.getPage( (currPage + 1), pageSize ));
@@ -60,7 +60,8 @@ function mapStateToProps(state) {
 
     return {
         loading: (posts && posts.loading) || false,
-        posts: (posts && posts.posts) || []
+        posts: (posts && posts.posts) || [],
+        postResult: (posts && posts.postResult)
     }
 }
 
